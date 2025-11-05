@@ -491,7 +491,7 @@
  -->
 
 <!-- New Code -->
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -992,6 +992,499 @@
                     // This will now remove it from the UI regardless of type
                     removeReminderFromList(reminderId);
                 }
+            }
+
+        });
+    </script>
+</body>
+</html>
+ -->
+<!-- Code 3 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifestyle Reminder</title>
+    <style>
+        /* --- 1. Basic Setup & Typography --- */
+        :root {
+            --primary-color: #007bff;
+            --light-color: #f8f9fa;
+            --dark-color: #333;
+            --border-color: #ddd;
+            --danger-color: #dc3545;
+            --success-color: #28a745;
+            --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                Helvetica, Arial, sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* --- 2. Main App Container --- */
+        .app-container {
+            width: 100%;
+            max-width: 500px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        /* --- 3. Main Content Area --- */
+        .main-content {
+            padding: 25px;
+        }
+
+        /* --- 4. Notification Controls --- */
+        #permission-area {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #permission-status {
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        /* --- 5. Reminder Form --- */
+        .reminder-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box; /* Important for padding */
+        }
+        
+        /* New styles for checkbox */
+        .form-group-checkbox {
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        .form-group-checkbox input {
+            width: auto; /* Don't stretch checkbox */
+        }
+        .form-group-checkbox label {
+            margin-bottom: 0; /* Align label with checkbox */
+            font-weight: normal;
+        }
+
+        .time-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .time-input-group input {
+            flex: 1; /* Input takes available space */
+        }
+
+        .time-input-group select {
+            flex: 0 1 120px; /* Select has a fixed base width */
+        }
+
+        /* --- 6. Buttons --- */
+        .btn {
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* --- 7. Reminder List --- */
+        #reminder-list-area {
+            margin-top: 30px;
+        }
+        
+        #reminder-list-area h2 {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .reminder-item {
+            background: var(--light-color);
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .reminder-item .message {
+            font-weight: 600;
+            margin-right: 15px;
+            word-break: break-word;
+        }
+        
+        .reminder-item .time {
+            font-size: 0.9rem;
+            color: #555;
+            flex-shrink: 0;
+        }
+        
+        .reminder-item .btn-cancel {
+            background-color: var(--danger-color);
+            color: white;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        .reminder-item .btn-cancel:hover {
+            background-color: #c82333;
+        }
+
+        /* --- 8. Responsive Design --- */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .main-content {
+                padding: 15px;
+            }
+            .time-input-group {
+                flex-direction: column;
+            }
+            .time-input-group select {
+                flex: 1; /* Full width on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1>Lifestyle Reminder</h1>
+        </header>
+
+        <main class="main-content">
+            <div id="permission-area">
+                <button id="btn-enable-notifications" class="btn btn-secondary">
+                    Enable Notifications
+                </button>
+                <div id="permission-status">
+                    Please enable notifications to use this app.
+                </div>
+            </div>
+
+            <form id="reminder-form" class="reminder-form">
+                <div class="form-group">
+                    <label for="reminder-message">Reminder Message</label>
+                    <input
+                        type="text"
+                        id="reminder-message"
+                        placeholder="e.g., 'Drink water' or 'Stand up'"
+                        required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="reminder-time">Remind me in...</label>
+                    <div class="time-input-group">
+                        <input
+                            type="number"
+                            id="reminder-time"
+                            min="1"
+                            value="10"
+                            required
+                        />
+                        <select id="reminder-unit">
+                            <option value="seconds">Seconds</option>
+                            <option value="minutes" selected>Minutes</option>
+                            <option value="hours">Hours</option>
+                            <option value="days">Days</option>
+                            <option value="weeks">Weeks</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-checkbox">
+                    <input type="checkbox" id="reminder-repeat" />
+                    <label for="reminder-repeat">Repeat this reminder</label>
+                </div>
+
+
+                <button type="submit" id="btn-set-reminder" class="btn btn-primary" disabled>
+                    Set Reminder
+                </button>
+            </form>
+
+            <section id="reminder-list-area">
+                <h2>Active Reminders</h2>
+                <div id="reminder-list">
+                    </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // --- 1. Get DOM Elements ---
+            const btnEnable = document.getElementById("btn-enable-notifications");
+            const permissionStatus = document.getElementById("permission-status");
+            const reminderForm = document.getElementById("reminder-form");
+            const messageInput = document.getElementById("reminder-message");
+            const timeInput = document.getElementById("reminder-time");
+            const unitInput = document.getElementById("reminder-unit");
+            const repeatInput = document.getElementById("reminder-repeat"); // ADDED
+            const btnSetReminder = document.getElementById("btn-set-reminder");
+            const reminderList = document.getElementById("reminder-list");
+
+            // --- 2. Audio Context (for sound) ---
+            let audioContext;
+            const activeTimers = {}; // Store timers and their type { id, isInterval }
+
+            function initAudioContext() {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            }
+
+            // --- 3. Notification Permission ---
+            function checkAndRequestPermission() {
+                initAudioContext();
+                if (!("Notification" in window)) {
+                    permissionStatus.textContent = "This browser does not support notifications.";
+                    btnEnable.disabled = true;
+                    return;
+                }
+
+                if (Notification.permission === "granted") {
+                    permissionGranted();
+                } else if (Notification.permission !== "denied") {
+                    Notification.requestPermission().then(permission => {
+                        permission === "granted" ? permissionGranted() : permissionDenied();
+                    });
+                } else {
+                    permissionDenied();
+                }
+            }
+
+            function permissionGranted() {
+                permissionStatus.textContent = "Notifications are enabled!";
+                permissionStatus.style.color = "var(--success-color)";
+                btnEnable.style.display = "none";
+                btnSetReminder.disabled = false;
+            }
+
+            function permissionDenied() {
+                permissionStatus.textContent = "Notifications disabled. Enable them in browser settings.";
+                permissionStatus.style.color = "var(--danger-color)";
+                btnEnable.disabled = true;
+                btnSetReminder.disabled = true;
+            }
+            
+            if (Notification.permission === "granted") permissionGranted();
+            if (Notification.permission === "denied") permissionDenied();
+
+            btnEnable.addEventListener("click", checkAndRequestPermission);
+
+            // --- 4. Form Submission ---
+            reminderForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                initAudioContext();
+
+                const message = messageInput.value;
+                const time = parseInt(timeInput.value, 10);
+                const unit = unitInput.value;
+                const shouldRepeat = repeatInput.checked; // ADDED
+
+                if (!message || isNaN(time) || time <= 0) {
+                    alert("Please enter a valid message and time.");
+                    return;
+                }
+
+                const totalMilliseconds = calculateMilliseconds(time, unit);
+                const reminderId = `reminder-${Date.now()}`;
+                
+                let timerId;
+
+                // MODIFIED: Use setInterval for repeating reminders
+                if (shouldRepeat) {
+                    timerId = setInterval(() => {
+                        showNotification(message);
+                        playSound();
+                        // For repeating reminders, we DON'T remove it from the list after it fires.
+                    }, totalMilliseconds);
+                } else {
+                    timerId = setTimeout(() => {
+                        showNotification(message);
+                        playSound();
+                        removeReminderFromList(reminderId); // Remove one-time reminders after firing.
+                    }, totalMilliseconds);
+                }
+
+                // MODIFIED: Store timer info for cancellation
+                activeTimers[reminderId] = { id: timerId, isInterval: shouldRepeat };
+
+                addReminderToList(message, time, unit, shouldRepeat, reminderId);
+
+                // Clear form
+                messageInput.value = "";
+                timeInput.value = 10;
+                unitInput.value = "minutes";
+                repeatInput.checked = false;
+            });
+
+            // --- 5. Helper Functions ---
+            function calculateMilliseconds(time, unit) {
+                const msInSecond = 1000;
+                switch (unit) {
+                    case "seconds": return time * msInSecond;
+                    case "minutes": return time * msInSecond * 60;
+                    case "hours":   return time * msInSecond * 60 * 60;
+                    case "days":    return time * msInSecond * 60 * 60 * 24;
+                    case "weeks":   return time * msInSecond * 60 * 60 * 24 * 7;
+                    default: return 0;
+                }
+            }
+
+            function showNotification(message) {
+                if (Notification.permission !== "granted") return;
+                const options = {
+                    body: message,
+                    icon: "https://via.placeholder.com/128?text=!",
+                    tag: "lifestyle-reminder"
+                };
+                new Notification("Lifestyle Reminder", options);
+            }
+
+            function playSound() {
+                if (!audioContext) return;
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                oscillator.type = "sine";
+                oscillator.frequency.setValueAtTime(520, audioContext.currentTime);
+                oscillator.start();
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.5);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            }
+            
+            // MODIFIED: AddReminderToList now shows repeating status
+            function addReminderToList(message, time, unit, isRepeating, reminderId) {
+                const item = document.createElement("div");
+                item.className = "reminder-item";
+                item.id = reminderId;
+                
+                let timeString;
+                if (isRepeating) {
+                    timeString = `Repeats every ${time} ${unit}`;
+                } else {
+                    const triggerTime = new Date(Date.now() + calculateMilliseconds(time, unit));
+                    timeString = `Fires at ${triggerTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+                }
+
+                item.innerHTML = `
+                    <div>
+                        <div class="message">${message}</div>
+                        <div class="time">${timeString}</div>
+                    </div>
+                    <button class="btn btn-cancel" data-id="${reminderId}">Cancel</button>
+                `;
+                
+                reminderList.appendChild(item);
+                
+                item.querySelector('.btn-cancel').addEventListener('click', () => {
+                    cancelReminder(reminderId);
+                });
+            }
+            
+            // MODIFIED: cancelReminder now handles both setTimeout and setInterval
+            function cancelReminder(reminderId) {
+                const timer = activeTimers[reminderId];
+                if (timer) {
+                    if (timer.isInterval) {
+                        clearInterval(timer.id);
+                    } else {
+                        clearTimeout(timer.id);
+                    }
+                    removeReminderFromList(reminderId);
+                }
+            }
+
+            function removeReminderFromList(reminderId) {
+                const item = document.getElementById(reminderId);
+                if (item) {
+                    item.remove();
+                }
+                delete activeTimers[reminderId]; // Clean up timer reference
             }
 
         });
